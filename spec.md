@@ -13,13 +13,12 @@
 
 ## Link types
 * "X is a type of Y (all X are Y)"
-* "����� asdf asdf"
-* "$\exists$ X implies $\exists$ Y"
-* "$\exists$ X implies $\neg \exists$ Y"
-* "$\exists$ X does NOT imply $\exists$ Y"
+* "∃ X implies ∃ Y"
+* "∃ X implies ¬∃ Y"
+* "∃ X does NOT imply ∃ Y"
 * "X can be used as a building block (along with Z1 and Z2) for Y"
 * [Links also need to include a way to have a growth factor (e.g. you can build
-  Y out of X at $O(n^2)$ cost)]
+  Y out of X at `O(n^2)` cost)]
 
 ## Entities
 ### Primitives
