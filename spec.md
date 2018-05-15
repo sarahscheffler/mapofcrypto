@@ -13,6 +13,7 @@
 
 ## Link types
 * "X is a type of Y (all X are Y)"
+* "ø¸¨¢ƒ asdf asdf"
 * "$\exists$ X implies $\exists$ Y"
 * "$\exists$ X implies $\neg \exists$ Y"
 * "$\exists$ X does NOT imply $\exists$ Y"
