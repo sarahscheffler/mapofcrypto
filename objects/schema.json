@@ -1,0 +1,110 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#", TODO where this
+    "title": "Node",
+    "description": "A node in the map of crypto",
+    "type": "object",
+    "properties": {
+        "uid": {
+            "description": "The unique ID of the primitive/scheme/assumption",
+            "type": "integer",
+            "exclusiveMinimum": 0
+        },
+        "name": {
+            "description": "The name of the primitive/scheme/assumption",
+            "type": "string"
+        },
+        "main_reference": {
+            "description": "The canonical reference for this primitive/scheme",
+            "type": "object",
+            TODO needs to have optional page number and also actual reference
+        },
+        "short_description": {
+            "description": "A summary of the primitive/scheme/assumption",
+            "type": "string"
+            TODO may contain additional references
+        },
+        "submitter": {
+            "description": "Contributor who submitted this node",
+            "type": "string"
+        },
+        "verifier": {
+            "description": "Contributor who verified this node",
+            "type": "string"
+        }
+    },
+    "required": ["uid", "name", "main_reference"]
+},
+
+{
+    "title": "Edge",
+    "description": "A (directed, typed) edge in the map of crypto",
+    "type": "object",
+    "properties": {
+        "uid": {
+            "description": "The unique ID of the link between primitives",
+            "type": "integer",
+            "exclusiveMinimum": 0
+        },
+        "source_node": {
+            "description": "The input 'X' node uid of this relationship",
+            "type": "integer",
+            "exclusiveMinimum": 0
+        },
+        "dest_node": {
+            "description": "The output 'Y' node uid of this relationship",
+            "type": "integer",
+            "exclusiveMinimum": 0
+        },
+        "link_type": {
+            "description": "The type of relationship between these nodes",
+            "enum": ["is_type_of", "E_implies_E", "E_not_implies_E"]
+        },
+        "main_reference": {
+            "description": "The canonical reference for this primitive/scheme",
+            "type": "object",
+            TODO needs to have optional page number and also actual reference
+        },
+        "long_description": {
+            "description": "Additional information for this link",
+            "type": "string"
+        },
+        "submitter": {
+            "description": "Contributor who submitted this node",
+            "type": "string"
+        },
+        "verifier": {
+            "description": "Contributor who verified this node",
+            "type": "string"
+        }
+    },
+    "required": ["uid", "source_node", "dest_node", "link_type", "main_reference"]
+},
+
+{
+    "title": "Reference",
+    "description": "A citation to a ",
+    "type": "object",
+    "properties": {
+        "uid": {
+            "description": "Unique reference ID (should match bibtex id)",
+            "type": "string"
+            TODO nonempty
+        },
+        "url": {
+            "description": "Link to reference",
+            "type": "string",
+            "format": "uri"
+        },
+        "bibtex_ref": {
+            "description": "Bibtex-formatted citation",
+            "type": "string"
+            TODO match format?
+        },
+        "long_description": {
+            "description": "Additional information about this reference",
+            "type": "string"
+        }
+    },
+    "required": ["uid", "url", "bibtex_ref"]
+}
+TODO possibly want $ref
