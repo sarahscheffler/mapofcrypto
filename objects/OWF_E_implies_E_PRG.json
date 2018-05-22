@@ -1,0 +1,13 @@
+{
+    "uid": 2411205603,
+    "source_node": 1500884560,
+    "dest_node": 765386099,
+    "link_type": "E_implies_E",
+    "bibtex_ref": "@article{haastad1999pseudorandom,\ntitle={A pseudorandom generator from any one-way function},\nauthor={H{\\aa}stad, Johan and Impagliazzo, Russell and Levin, Leonid A and Luby, Michael},\njournal={SIAM Journal on Computing},\nvolume={28},\nnumber={4},\npages={1364--1396},\nyear={1999},\npublisher={SIAM}}",
+    "page_number": "Theorem 6.3",
+    "url": "https://pdfs.semanticscholar.org/e280/bf8213ef6829f82a48bad14d663025dc615c.pdf",
+    "long_description": "If one-way functions exist, then pseudorandom generators exist.  A PRG with input length $n^8$ can be constructed generically from a OWF of input length $n$",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-05-22"
+}
+

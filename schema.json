@@ -1,6 +1,4 @@
 {
-
-
     "node_schema": {
         "title": "Node",
         "description": "A node in the map of crypto",
