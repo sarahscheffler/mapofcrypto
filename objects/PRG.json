@@ -1,0 +1,11 @@
+{
+    "uid": 765386099,
+    "display_name": "PRG",
+    "full_name": "pseudorandom generator",
+    "bibtex_ref": "@article{blum1984generate,\ntitle={How to generate cryptographically strong sequences of pseudorandom bits},\nauthor={Blum, Manuel and Micali, Silvio},\njournal={SIAM journal on Computing},\nvolume={13},\nnumber={4},\npages={850--864},\nyear={1984},\npublisher={SIAM\n}",
+    "url": "https://ieeexplore.ieee.org/abstract/document/4568378/",
+    "page_number": "Section 1.2",
+    "long_description": "A PRG takes in a random seed $s$ of length $n$ and outputs ouput bits such that:\n(1) each bit is output in time $poly(n)$, and \n(2) each bit is unpredictable (advantage of adversary is negligible) given the generator and all previous output bits (but not the seed).\n\nPRGs appeared with a different definition in the literature earlier than this reference (\\cite{yao1982theory}).",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-05-22"
+}

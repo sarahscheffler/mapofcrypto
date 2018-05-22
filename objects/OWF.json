@@ -1,0 +1,10 @@
+{
+    "uid": 1500884560,
+    "display_name": "OWF",
+    "full_name": "one-way function",
+    "bibtex_ref": "@inproceedings{yao1982theory,\ntitle={Theory and application of trapdoor functions},\nauthor={Yao, Andrew C},\nbooktitle={Foundations of Computer Science, 1982. SFCS'08. 23rd Annual Symposium on},\npages={80--91},\nyear={1982},\norganization={IEEE\n}",
+    "url": "https://ieeexplore.ieee.org/abstract/document/4568378/",
+    "page_number": "Theorem 7",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-05-22"
+}
