@@ -1,0 +1,102 @@
+{
+    "node_schema": {
+        "title": "Node",
+        "description": "A node in the map of crypto",
+        "type": "object",
+        "properties": {
+            "uid": {
+                "description": "The unique ID of the primitive/scheme/assumption (random 32-bit unsigned integer)",
+                "type": "integer"
+            },
+            "display_name": {
+                "description": "The abbreviation or short name of the primitive/scheme/assumption",
+                "type": "string"
+            },
+            "full_name": {
+                "description": "The complete name of the primitive/scheme/assumption",
+                "type": "string"
+            },
+            "bibtex_ref": {
+                "description": "The canonical reference for this primitive/scheme (should be a bibtex string)",
+                "type": "string"
+            },
+            "url": {
+                "description": "An Internet link to the canonical reference (un-paywalled if possible)",
+                "type": "string"
+            },
+            "page_number": {
+                "description": "The page number (or theorem number) of the primitive/scheme in the reference (can be any type)"
+            },
+            "long_description": {
+                "description": "Additional information for this link",
+                "type": "string"
+            },
+            "submitter": {
+                "description": "Contributor(s) who submitted this node",
+                "type": "string"
+            },
+            "verifier": {
+                "description": "Contributor(s) who verified this node",
+                "type": "string"
+            },
+            "date_last_checked": {
+                "description": "The most recent time this node was checked",
+                "type": "string"
+            }
+        },
+        "required": ["uid", "display_name", "date_last_checked"]
+    },
+
+    "edge_schema": {
+        "title": "Edge",
+        "description": "A (directed, typed) edge in the map of crypto",
+        "type": "object",
+        "properties": {
+            "uid": {
+                "description": "The unique ID of the link between primitives (random 32-bit unsigned integer)",
+                "type": "integer"
+            },
+            "source_node": {
+                "description": "The input 'X' node uid of this relationship",
+                "type": "integer"
+            },
+            "dest_node": {
+                "description": "The output 'Y' node uid of this relationship",
+                "type": "integer"
+            },
+            "link_type": {
+                "description": "The type of relationship between these nodes",
+                "enum": ["is_type_of", "E_implies_E"]
+            },
+            "bibtex_ref": {
+                "description": "The canonical reference for this primitive/scheme (should be a bibtex string)",
+                "type": "string"
+            },
+            "url": {
+                "description": "An Internet link to the canonical reference (un-paywalled if possible)",
+                "type": "string"
+            },
+            "page_number": {
+                "description": "The page number or theorem of the primitive/scheme in the reference (can be any type)"
+            },
+            "long_description": {
+                "description": "Additional information for this link",
+                "type": "string"
+            },
+            "submitter": {
+                "description": "Contributor(s) who submitted this edge",
+                "type": "string"
+            },
+            "verifier": {
+                "description": "Contributor(s) who verified this edge",
+                "type": "string"
+            },
+            "date_last_checked": {
+                "description": "The most recent time this edge was checked",
+                "type": "string"
+            }
+        },
+        "required": ["uid", "source_node", "dest_node", "link_type", "date_last_checked"]
+    }
+
+}
