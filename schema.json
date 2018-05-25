@@ -17,11 +17,11 @@
                 "type": "string"
             },
             "bibtex_ref": {
-                "description": "The canonical reference for this primitive/scheme (should be a bibtex string)",
+                "description": "The canonical reference for this primitive/scheme (should be a name in the bibtex file)",
                 "type": "string"
             },
             "url": {
-                "description": "An Internet link to the canonical reference (un-paywalled if possible)",
+                "description": "(deprecated: url should be in bibtex file) An Internet link to the canonical reference (un-paywalled if possible)",
                 "type": "string"
             },
             "page_number": {
@@ -56,9 +56,12 @@
                 "description": "The unique ID of the link between primitives (random 32-bit unsigned integer)",
                 "type": "integer"
             },
-            "source_node": {
-                "description": "The input 'X' node uid of this relationship",
-                "type": "integer"
+            "source_nodes": {
+                "description": "The inputs 'X_1', 'X_2'...'X_n' nodes' uids of this relationship",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {"type": "integer"}
             },
             "dest_node": {
                 "description": "The output 'Y' node uid of this relationship",
@@ -69,11 +72,11 @@
                 "enum": ["is_type_of", "E_implies_E"]
             },
             "bibtex_ref": {
-                "description": "The canonical reference for this primitive/scheme (should be a bibtex string)",
+                "description": "The canonical reference for this primitive/scheme (should be a name in the bibtex file)",
                 "type": "string"
             },
             "url": {
-                "description": "An Internet link to the canonical reference (un-paywalled if possible)",
+                "description": "(deprecated: url should be in bibtex file) An Internet link to the canonical reference (un-paywalled if possible)",
                 "type": "string"
             },
             "page_number": {
@@ -96,7 +99,7 @@
                 "type": "string"
             }
         },
-        "required": ["uid", "source_node", "dest_node", "link_type", "date_last_checked"]
+        "required": ["uid", "source_nodes", "dest_node", "link_type", "date_last_checked"]
     }
 
 }
