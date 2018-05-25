@@ -3,7 +3,7 @@ import json
 import sys
 
 def check(to_check, schema="schema.json"):
-    with open("schema.json", "r") as schema_file:
+    with open(schema, "r") as schema_file:
         d = json.load(schema_file)
         print(d)
         node_schema = d["node_schema"]
