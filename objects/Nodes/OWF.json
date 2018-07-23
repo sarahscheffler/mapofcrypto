@@ -5,6 +5,7 @@
     "bibtex_ref": "yao1982theory",
     "page_number": "Theorem 7",
     "submitter": "sarahscheffler",
-    "date_last_checked": "2018-05-25"
+    "date_last_checked": "2018-07-23",
+    "long_description": "A function $f$ is one-way if there is a polynomial-time function that, given $x$, computes $f(x)$, but there is no polynomial-time adversary A that can win the $Invert$ game with non-negligible probability.  The $Invert$ game has a gamemaster choose an $n$-bit $x$, and compute $y = f(x)$.  The adversary is given $1^n$ and y, and outputs $x'$, and wins if $f(x') = y$."
 }
 
