@@ -1,0 +1,12 @@
+{
+    "uid": 2411205603,
+    "source_nodes": [1500884560],
+    "dest_node": 765386099,
+    "link_type": "E_implies_E",
+    "bibtex_ref": "haastad1999pseudorandom",
+    "page_number": "Theorem 6.3",
+    "long_description": "If one-way functions exist, then pseudorandom generators exist.  A PRG with input length $n^8$ can be constructed generically from a OWF of input length $n$",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-05-22"
+}
+
