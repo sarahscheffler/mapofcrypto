@@ -1,6 +1,8 @@
 # Map of Crypto Links and Objects
 
 ### Latest changes
+* 2018/07/23. SS.  Removing objects we already have and links that we aren't
+  using.
 * 2018/05/15. SS.  Tidying up this document for sending an email.
 * 2018/05/11. SS.  Initial commit.  Added initial list of protocols to include, 
   link types, categories, etc.
@@ -14,19 +16,15 @@
 ## Link types
 * "X is a type of Y (all X are Y)".
     * Example: A "Trapdoor permutation" is a type of "one-way permutation"
+    * "X can be used as a building block (along with Z1 and Z2) for Y".  To do
+      this, use multiple sources in the `source_dest` list.
 * "∃X implies ∃Y"
     * Example: "Trapdoor permutations" can be used to build "IND-CCA-secure PKE"
       [Yao82]
-* "∃X implies ¬∃Y"
-* "∃X does NOT imply ∃Y"
-* "X can be used as a building block (along with Z1 and Z2) for Y"
-    * This might be a stretch goal
-* [Links also need to include a way to have a growth factor (e.g. you can build
-  Y out of X at `O(n^2)` cost)]
 
 ## Entities
 ### Primitives
-* PRGs
+* ~~PRGs~~
 * PRFs
     * Constrained PRFs
     * Strong
@@ -35,7 +33,8 @@
         * Strong
         * Weak
 * OWFs
-    * Strong
+    * ~~Strong~~
+        * TODO: Existing OWF node should be StrongOWF.
     * Weak
     * OWPs
     * Trapdoor OWPs
