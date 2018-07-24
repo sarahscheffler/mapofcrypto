@@ -1,0 +1,52 @@
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="http://schema.org/Article">
+
+    <!-- Full name and display name block -->
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">{{ page.title }}</h1>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+        <!-- Long description  -->
+        <p>{{ content | default: "No long description yet.  Contribute one?" | escape }}</p>
+
+
+        <!-- If this page is a node, then add the relationships, which were
+            generated and should be in _includes. -->
+        {% if page.display_name %} <!-- True if node, false if edge -->
+        {% include relationships/{{ page.uid }}_rel.html %}
+        {% endif %}
+
+        <!-- Citation block -->
+        {% if page.bibtex_ref %}
+        <h4 itemprop="bibtex_ref">Citation</h4>
+        {{ page.page_number | default: "" }}
+        <div>
+        {% include bib/{{ page.bibtex_ref }} %}
+        </div>
+        {% else %}
+        <p>No citation yet.  Contribute one?</p>
+        {% endif %}
+
+        <p></p>
+        <p></p>
+
+        <!-- Contributor information -->
+        <h4>Contributor information</h4>
+        <div>
+        <p><b>Submitter:</b> {{ page.submitter  | default: "Anonymous submission." }}</p>
+        <p><b>Verifier:</b> {{ page.verifier  | default: "Requires verification." }}</p>
+        <p><b>Date last checked:</b> {{ page.date_last_checked }}</p>
+        <p><b>uid:</b> {{ page.uid }}</p>
+        </div>
+        
+
+    </div>
+
+	<!-- Not sure if we need this -->
+    <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+
+</article>
