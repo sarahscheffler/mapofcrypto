@@ -1,0 +1,11 @@
+{
+    "uid": 3320321157,
+    "display_name": "PRF",
+    "full_name": "pseudorandom function family",
+    "bibtex_ref": "goldreich1984construct",
+    "page_number": "Page 794 / Section 1.1",
+    "long_description": "An ensemble of pseudorandom function families is a collection $F = \\{F_n\\}$ of families where each $n$ specifies the key length for the family $F_n$.  Each family $F_n$ is itself a collection of functions $F_n = \\{f_k\\}_{k \\in K_n}$ keyed by a key $k$ chosen from $K_n$.  Each pseudorandom function $f_k$ has the following properties:\n(1) Poly-time evaluation.  There exists an algorithm that is polynomial time in $n$ such that for $n \\ge 1$, for $k \\in K_n$, and input $x$ (typically from $\\{0,1\\}^n$) that computes $f_k(x)$, and\n(2) Pseudorandomness.  No probabilistic adversary that runs in time polynomial in $n$ can distinguish $f_k(x)$ for a *randomly chosen $k$ unknown to the adversary* from $R(x)$ where $R$ is a truly random function (with a random truth table) from $\\{0,1\\}^n \\rightarrow \\{0,1\\}^n$.",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-09-21"
+}
+
