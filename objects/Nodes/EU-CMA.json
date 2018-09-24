@@ -1,0 +1,11 @@
+{
+    "uid": 654647061,
+    "display_name": "EU-CMA",
+    "full_name": "Existentially Unforgeable under Chosen Message Attack",
+    "bibtex_ref": "goldwasser1988digital",
+    "page_number": "Section 2.3",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-09-24",
+    "long_description": "A signature scheme $S = (Gen, Sign, Ver)$ is existentially-unforgeable under chosen message attack if there is no polynomial-time adversary $A$ that can win the $Forgery$ game with non-negligible probability.  In the $Forgery$ game, the gamemaster runs $Gen \\rightarrow (pk, sk)$ and then gives $A$ oracle access to $Sign_{sk}$.  Eventually, $A$ will output a challenge message-signature pair $m^\\star, \\sigma^\\star$, and $A$ wins the game if $Ver_{pk}(m^\\star, \\sigma^\\star)$ returns $Accept$ (and $m^\\star$ was not queried to the $Sign_{pk}$ oracle)."
+}
+

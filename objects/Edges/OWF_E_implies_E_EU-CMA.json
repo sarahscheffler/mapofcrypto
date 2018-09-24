@@ -1,0 +1,12 @@
+{
+    "uid": 2411205603,
+    "source_nodes": [1500884560],
+    "dest_node": 654647061,
+    "link_type": "E_implies_E",
+    "bibtex_ref": "rompel1990one",
+    "page_number": "Theorem 3",
+    "long_description": "If OWFs exist, then OW hash functions exist.  And if OW hash functions exist, then there exists an EU-CMA signature scheme.  Thus, if OWFs exist, then an EU-CMA signature scheme exists.",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-09-24"
+}
+
