@@ -1,0 +1,12 @@
+{
+    "uid": 4204649828,
+    "source_nodes": [654647061],
+    "dest_node": 1500884560,
+    "link_type": "E_implies_E",
+    "bibtex_ref": "rompel1990one",
+    "page_number": "Lemma 1",
+    "long_description": "If one-way functions exist, then pseudorandom generators exist.  A PRG with input length $n^8$ can be constructed generically from a OWF of input length $n$",
+    "long_description": "Let $S = (Gen, Sign, Ver)$ be a EU-CMA-secure signature scheme.  Let $f$ be a randomized function that runs $Gen$ and outputs the public key $pk$.  If this $f$ were not one-way, then given $pk$ we could compute $sk'$ such that $Ver_{pk}(Sign_{sk'}(\\cdot)) = Accept$.  But then $S$ is not EU-CMA.  Therefore, $f$ must be a one-way function.",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-09-24"
+}
