@@ -1,37 +1,22 @@
 [
-  {
-    "source": "PKE",
-    "textsize": 18,
-    "color": 3
-  },
-  {
-    "source": "TDP",
-    "textsize": 18,
-    "color": 3
-  },
-  {
-    "source": "Factoring Assumption",
-    "textsize": 18,
-    "color": 2
-  },
-  {
-    "source": "OWP",
-    "textsize": 18,
-    "color": 7
-  },
-  {
-    "source": "OWF",
-    "textsize": 18,
-    "color": 4
-  },
-  {
-    "source": "PRG",
-    "textsize": 18,
-    "color": 5
-  },
-  {
-    "source": "PRF",
-    "textsize": 18,
-    "color": 1
-  }
+    {
+        "source": "EU-CMA",
+        "textsize": 18,
+        "color": 3
+    },
+    {
+        "source": "OWF",
+        "textsize": 18,
+        "color": 4
+    },
+    {
+        "source": "PRF",
+        "textsize": 18,
+        "color": 2
+    },
+    {
+        "source": "PRG",
+        "textsize": 18,
+        "color": 5
+    }
 ]

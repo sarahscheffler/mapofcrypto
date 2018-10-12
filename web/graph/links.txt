@@ -1,56 +1,22 @@
 [
-  {
-    "source": "PKE",
-    "target": "TDP",
-    "value": 1,
-    "color": 3
-  },
-  {
-    "source": "OWP",
-    "target": "TDP",
-    "value": 1,
-    "color": 7
-  },
-  {
-    "source": "PRG",
-    "target": "OWP",
-    "value": 1,
-    "color": 5
-  },
-  {
-    "source": "OWF",
-    "target": "PRG",
-    "value": 1,
-    "color": 4
-  },
-  {
-    "source": "PRG",
-    "target": "OWF",
-    "value": 1,
-    "color": 5
-  },
-  {
-    "source": "PRF",
-    "target": "OWF",
-    "value": 1,
-    "color": 1
-  },
-  {
-    "source": "PRF",
-    "target": "PRG",
-    "value": 1,
-    "color": 1
-  },
-  {
-    "source": "OWF",
-    "target": "Factoring Assumption",
-    "value": 1,
-    "color": 4
-  },
-  {
-    "source": "OWF",
-    "target": "OWP",
-    "value": 1,
-    "color": 4
-  }
+    {
+        "source": "EU-CMA",
+        "target": "OWF",
+        "color": 7
+    },
+    {
+        "source": "OWF",
+        "target": "EU-CMA",
+        "color": 3
+    },
+    {
+        "source": "OWF",
+        "target": "PRG",
+        "color": 0
+    },
+    {
+        "source": "PRG",
+        "target": "PRF",
+        "color": 5
+    }
 ]

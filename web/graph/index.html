@@ -2,7 +2,10 @@
 <head>
 <meta charset="utf-8">
 <title>Map of Crypto</title>
-<script src="d3.v3.js"></script>
+<script type="text/javascript" src="d3.v3.js"></script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 <style>
 html {
   height: 100%;
@@ -13,10 +16,8 @@ body {
     background-image: url("grid-tile.gif");
     background-repeat: repeat;
     background-size: 210px 152px;
-    /* background-color: rgb(245, 252, 255); */
     background-color: rgb(245, 252, 255);
     min-height: 100%;
-    /* overflow: hidden; */
 }
 
 path.link {
@@ -27,21 +28,16 @@ path.link {
 }
 
 circle {
-  /* fill: #fcc; */
-  /* stroke: white; */
   stroke-width: 2.5px;
 }
 
 text {
-  /* fill: #FFFFFF; */
-  /* font-size: 18px; */
   font-family: sans-serif;
   font-weight: bold;
   font-weight: 700;
   pointer-events: none;
   font-family: 'SF Pro Display';
   font-style: normal;
-  /* color: black; */
   stroke: black;
   stroke-width: 0.5px;
 }
@@ -51,17 +47,14 @@ text {
     font-weight: 600;
     font-family: 'SF Pro Display';
     font-style: normal;
-    /* margin-top: 5px;
-    margin-bottom: 5px; */
+}
+
+h4 {
+    font-family: sans-serif;
 }
 
 #side {
-    /* padding: 10px; */
-    /* border: 1px solid; */
-    /* padding: 0.01em 16px; */
-    /* border-radius: 16px; */
     border-right: 1.5px solid;
-    /* padding-top: 5px; */
     background-color: rgba(250, 250, 250, 1.0);
 }
 
@@ -70,20 +63,11 @@ text {
 
 <body>
 <div>
-    <!-- <div style="display: inline-block;width: 350px;height: 500px;background-color: white;">
-        <h1 style="text-align: center;font-family: sans-serif;">Map of Crypto Wiki</h1>
-    </div>
-    <div style="display: inline-block;">
-        <svg width="600" height="500"></svg>
-    </div> -->
-
     <div style="width: 100%; height: 100%">
         <div style="float: left; width: 29%; display: inline-block; height: 100%; min-height: 2000px;" id="side">
             <h2 style="text-align: center; margin-bottom: 5px;" class="h">Map of Crypto</h2>
             <h3 style="text-align: center; margin-top: 5px;" class="h">Wiki Reference</h3>
-            <!-- <div style="padding: 10px;"> -->
             <p style="text-align: center; padding-left: 10px; padding-right: 10px;" id="name"><p>
-            <!-- <div> -->
             <p style="padding: 10px;" id="content"><p>
         </div>
         <div style="float:right; width: 70%; height: 100%;">
@@ -92,9 +76,20 @@ text {
     </div>
 </div>
 <script>
+var info;
+d3.json("info.txt", function(error, data) {
+    info = data;
+    console.log("info: ", info);
+});
 function wikiOpen(name) {
-    document.getElementById("name").innerHTML = name;
-    document.getElementById("content").innerHTML = "Content or reference here for "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+" content here about "+name+".&nbsp; Pull data and sources from main wiki page.";
+    document.getElementById("name").innerHTML = "<h4>"+info[name]["full_name"]+"</h4>";
+    document.getElementById("content").innerHTML =
+        "<b>Reference ID</b>: &nbsp&nbsp&nbsp" + info[name]["bibtex_ref"] + "<br>" +
+        "<b>Page</b>: &nbsp&nbsp&nbsp" + info[name]["page_number"] + "<br>" +
+        "<b>Submitter</b>: &nbsp&nbsp&nbsp" + info[name]["submitter"] + "<br>" +
+        "<b>Date last checked</b>: &nbsp&nbsp&nbsp" + info[name]["date_last_checked"] + "<br>" +
+        "<br>" + info[name]["long_description"] + ""
+    ;
 }
 
 function shadeColor(color, p) {
@@ -111,16 +106,13 @@ d3.json("primitives.txt", function(error, links) {
     });
 });
 
-//data
 d3.json("links.txt", function(error, links) {
 
 var nodes = {};
 var colors = {};
 
-// var color = d3.scale.category20c();
 var color = d3.scale.linear()
   .domain([0, 1, 2, 3, 4, 5, 6, 7])
-  //.range(["blue", "green", "yellow"]);
   .range(["rgb(255,59,48)","rgb(255,149,0)","rgb(255,204,0)","rgb(76,217,100)","rgb(90,200,250)","rgb(0,122,255)","rgb(88,86,214)","rgb(255,45,85)"]);
 
 links.forEach(function(link) {
@@ -129,11 +121,9 @@ links.forEach(function(link) {
     link.target = nodes[link.target] ||
         (nodes[link.target] = {name: link.target});
     link.value = +link.value;
-    //link.color = +link.color;;
     console.log('\naddend1:', link.source);
     console.log('addend2:', link.color);
     colors[link.source] = {color: link.color}
-    // colors[nodes[link.source]] = {name: link.source, color: link.color};
 });
 
 var width = 600,
@@ -144,7 +134,7 @@ var force = d3.layout.force()
     .links(links)
     .size([width, height])
     .linkDistance(160)
-    .charge(-600)
+    .charge(-800)
     .on("tick", tick)
     .start();
 
@@ -152,10 +142,9 @@ var svg = d3.select("body").select("svg")
     // .attr("width", width)
     // .attr("height", height)
 
-// build the arrow.
 svg.append("svg:defs").selectAll("marker")
-    .data(["end"])      // Different link/path types can be defined here
-  .enter().append("svg:marker")    // This section adds in the arrows
+    .data(["end"])
+  .enter().append("svg:marker")
     .attr("id", String)
     .attr("viewBox", "0 -5 10 10")
     .attr("refX", 32)
@@ -166,32 +155,23 @@ svg.append("svg:defs").selectAll("marker")
   .append("svg:path")
     .attr("d", "M0,-5L10,0L0,5");
 
-// add the links and the arrows
 var path = svg.append("svg:g").selectAll("path")
     .data(force.links())
   .enter().append("svg:path")
-//    .attr("class", function(d) { return "link " + d.type; })
     .attr("class", "link")
     .attr("marker-end", "url(#end)");
 
-// define the nodes
 var node = svg.selectAll(".node")
     .data(force.nodes())
   .enter().append("g")
     .attr("class", "node")
     .call(force.drag());
-        // .on("start", dragstarted)
-        // .on("drag", dragged)
-        // .on("end", dragended));
 
-
-// add the nodes
 node.append("circle")
-    // .attr("r", function(d){console.log("---> ",nodes[d.name]); return 24;});
-    // .attr("fill", color)
     .attr({
         r: 28,
         fill: function (d) {
+            ///*  // random or from json color property
             var a = getColor[nodes[d.name].name];
             console.log("a=",a);
             if (typeof a === "undefined"){
@@ -199,6 +179,8 @@ node.append("circle")
             } else {
                 return color(a);
             }
+            //*/
+            //return color(Math.floor(Math.random() * Math.floor(7)));
         },
         stroke: function (d) {
             var a = getColor[nodes[d.name].name];
@@ -213,8 +195,6 @@ node.append("circle")
             }
         },
     });
-    //.style("fill", function(d){return color(2); });
-    //console.log("+    |"+node.color+"|    +");
 
 svg.selectAll(".node").on("click", function(id) {
     var _node = id;
@@ -223,24 +203,22 @@ svg.selectAll(".node").on("click", function(id) {
     wikiOpen(_node.name);
 });
 
-// add the text
 node.append("text")
     .attr("class", "text")
     .attr("x", 0)
     .attr("dy", ".35em")
-    // .attr("dx", function(d){return -0.5*radius})
     .style("text-anchor", "middle")
     .style("text-anchor", "middle")
     .style("fill", "white")
     .style("font-size", function (d) { console.log("getSize(...)",getSize[nodes[d.name].name]); return (getSize[nodes[d.name].name])+"px"})
     .text(function(d) { return d.name; });
 
-// add the curvy lines
 function tick() {
     path.attr("d", function(d) {
         var dx = d.target.x - d.source.x,
             dy = d.target.y - d.source.y,
             dr = Math.sqrt(dx * dx + dy * dy);
+            dr*= 7;
         return "M" +
             d.source.x + "," +
             d.source.y + "A" +
