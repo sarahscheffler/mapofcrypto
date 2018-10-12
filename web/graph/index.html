@@ -3,9 +3,6 @@
 <meta charset="utf-8">
 <title>Map of Crypto</title>
 <script type="text/javascript" src="d3.v3.js"></script>
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
 <style>
 html {
   height: 100%;
@@ -77,7 +74,7 @@ h4 {
 </div>
 <script>
 var info;
-d3.json("info.txt", function(error, data) {
+d3.json(dr+"info", function(error, data) {
     info = data;
     console.log("info: ", info);
 });
@@ -99,14 +96,14 @@ function shadeColor(color, p) {
 
 var getColor = {};
 var getSize = {};
-d3.json("primitives.txt", function(error, links) {
+d3.json(dr+"primitives", function(error, links) {
     links.forEach(function(link) {
         getColor[link.source] = link.color;
         getSize[link.source] = link.textsize;
     });
 });
 
-d3.json("links.txt", function(error, links) {
+d3.json(dr+"links", function(error, links) {
 
 var nodes = {};
 var colors = {};
@@ -139,8 +136,6 @@ var force = d3.layout.force()
     .start();
 
 var svg = d3.select("body").select("svg")
-    // .attr("width", width)
-    // .attr("height", height)
 
 svg.append("svg:defs").selectAll("marker")
     .data(["end"])
