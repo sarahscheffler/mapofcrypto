@@ -1,0 +1,22 @@
+[
+    {
+        "source": "EU-CMA",
+        "textsize": 18,
+        "color": 3
+    },
+    {
+        "source": "OWF",
+        "textsize": 18,
+        "color": 4
+    },
+    {
+        "source": "PRF",
+        "textsize": 18,
+        "color": 2
+    },
+    {
+        "source": "PRG",
+        "textsize": 18,
+        "color": 5
+    }
+]

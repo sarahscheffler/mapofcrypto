@@ -1,0 +1,22 @@
+[
+    {
+        "source": "EU-CMA",
+        "target": "OWF",
+        "color": 7
+    },
+    {
+        "source": "OWF",
+        "target": "EU-CMA",
+        "color": 3
+    },
+    {
+        "source": "OWF",
+        "target": "PRG",
+        "color": 0
+    },
+    {
+        "source": "PRG",
+        "target": "PRF",
+        "color": 5
+    }
+]
