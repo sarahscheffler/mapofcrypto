@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Map of Crypto</title>
+<script type="text/javascript" src="d3.v3.js"></script>
+<style>
+html {
+  height: 100%;
+}
+
+body {
+    margin: 0;
+    background-image: url("grid-tile.gif");
+    background-repeat: repeat;
+    background-size: 210px 152px;
+    background-color: rgb(245, 252, 255);
+    min-height: 100%;
+}
+
+path.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 2.0px;
+  stroke-opacity: 0.6;
+}
+
+circle {
+  stroke-width: 2.5px;
+}
+
+text {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-weight: 700;
+  pointer-events: none;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  stroke: black;
+  stroke-width: 0.5px;
+}
+
+.h {
+    font-family: sans-serif;
+    font-weight: 600;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+}
+
+h4 {
+    font-family: sans-serif;
+}
+
+#side {
+    border-right: 1.5px solid;
+    background-color: rgba(250, 250, 250, 1.0);
+}
+
+</style>
+</head>
+
+<body>
+<div>
+    <div style="width: 100%; height: 100%">
+        <div style="float: left; width: 29%; display: inline-block; height: 100%; min-height: 2000px;" id="side">
+            <h2 style="text-align: center; margin-bottom: 5px;" class="h">Map of Crypto</h2>
+            <h3 style="text-align: center; margin-top: 5px;" class="h">Wiki Reference</h3>
+            <p style="text-align: center; padding-left: 10px; padding-right: 10px;" id="name"><p>
+            <p style="padding: 10px;" id="content"><p>
+        </div>
+        <div style="float:right; width: 70%; height: 100%;">
+            <svg width="100%" height="500px"></svg>
+        </div>
+    </div>
+</div>
+<script>
+var info;
+d3.json(dr+"info", function(error, data) {
+    info = data;
+    console.log("info: ", info);
+});
+function wikiOpen(name) {
+    document.getElementById("name").innerHTML = "<h4>"+info[name]["full_name"]+"</h4>";
+    document.getElementById("content").innerHTML =
+        "<b>Reference ID</b>: &nbsp&nbsp&nbsp" + info[name]["bibtex_ref"] + "<br>" +
+        "<b>Page</b>: &nbsp&nbsp&nbsp" + info[name]["page_number"] + "<br>" +
+        "<b>Submitter</b>: &nbsp&nbsp&nbsp" + info[name]["submitter"] + "<br>" +
+        "<b>Date last checked</b>: &nbsp&nbsp&nbsp" + info[name]["date_last_checked"] + "<br>" +
+        "<br>" + info[name]["long_description"] + ""
+    ;
+}
+
+function shadeColor(color, p) {
+    var f=parseInt(color.slice(1),16),t=p<0?0:255,p=p<0?p*-1:p,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+}
+
+var getColor = {};
+var getSize = {};
+d3.json(dr+"primitives", function(error, links) {
+    links.forEach(function(link) {
+        getColor[link.source] = link.color;
+        getSize[link.source] = link.textsize;
+    });
+});
+
+d3.json(dr+"links", function(error, links) {
+
+var nodes = {};
+var colors = {};
+
+var color = d3.scale.linear()
+  .domain([0, 1, 2, 3, 4, 5, 6, 7])
+  .range(["rgb(255,59,48)","rgb(255,149,0)","rgb(255,204,0)","rgb(76,217,100)","rgb(90,200,250)","rgb(0,122,255)","rgb(88,86,214)","rgb(255,45,85)"]);
+
+links.forEach(function(link) {
+    link.source = nodes[link.source] ||
+        (nodes[link.source] = {name: link.source, color: link.color});
+    link.target = nodes[link.target] ||
+        (nodes[link.target] = {name: link.target});
+    link.value = +link.value;
+    console.log('\naddend1:', link.source);
+    console.log('addend2:', link.color);
+    colors[link.source] = {color: link.color}
+});
+
+var width = 600,
+    height = 500;
+
+var force = d3.layout.force()
+    .nodes(d3.values(nodes))
+    .links(links)
+    .size([width, height])
+    .linkDistance(160)
+    .charge(-800)
+    .on("tick", tick)
+    .start();
+
+var svg = d3.select("body").select("svg")
+
+svg.append("svg:defs").selectAll("marker")
+    .data(["end"])
+  .enter().append("svg:marker")
+    .attr("id", String)
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 32)
+    .attr("refY", -2.0)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+  .append("svg:path")
+    .attr("d", "M0,-5L10,0L0,5");
+
+var path = svg.append("svg:g").selectAll("path")
+    .data(force.links())
+  .enter().append("svg:path")
+    .attr("class", "link")
+    .attr("marker-end", "url(#end)");
+
+var node = svg.selectAll(".node")
+    .data(force.nodes())
+  .enter().append("g")
+    .attr("class", "node")
+    .call(force.drag());
+
+node.append("circle")
+    .attr({
+        r: 28,
+        fill: function (d) {
+            ///*  // random or from json color property
+            var a = getColor[nodes[d.name].name];
+            console.log("a=",a);
+            if (typeof a === "undefined"){
+                return color(0);
+            } else {
+                return color(a);
+            }
+            //*/
+            //return color(Math.floor(Math.random() * Math.floor(7)));
+        },
+        stroke: function (d) {
+            var a = getColor[nodes[d.name].name];
+            console.log("a=",a);
+            console.log("color ", color(a));
+            console.log("color_", shadeColor(color(0), a));
+            var b = -0.2;
+            if (typeof a === "undefined"){
+                return shadeColor(color(0), b);
+            } else {
+                return shadeColor(color(a), b);
+            }
+        },
+    });
+
+svg.selectAll(".node").on("click", function(id) {
+    var _node = id;
+    console.log("Clicked " + id,_node);
+    console.log("Wiki open:", _node.name);
+    wikiOpen(_node.name);
+});
+
+node.append("text")
+    .attr("class", "text")
+    .attr("x", 0)
+    .attr("dy", ".35em")
+    .style("text-anchor", "middle")
+    .style("text-anchor", "middle")
+    .style("fill", "white")
+    .style("font-size", function (d) { console.log("getSize(...)",getSize[nodes[d.name].name]); return (getSize[nodes[d.name].name])+"px"})
+    .text(function(d) { return d.name; });
+
+function tick() {
+    path.attr("d", function(d) {
+        var dx = d.target.x - d.source.x,
+            dy = d.target.y - d.source.y,
+            dr = Math.sqrt(dx * dx + dy * dy);
+            dr*= 7;
+        return "M" +
+            d.source.x + "," +
+            d.source.y + "A" +
+            dr + "," + dr + " 0 0,1 " +
+            d.target.x + "," +
+            d.target.y;
+    });
+
+    node
+        .attr("transform", function(d) {
+  	    return "translate(" + d.x + "," + d.y + ")"; });
+}
+
+});
+
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+
+</script>
+</body>
+</html>
