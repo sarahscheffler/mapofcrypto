@@ -278,7 +278,7 @@ function wikiOpen(name) {
 }
 
 var dot = window.setInterval( function() {
-    if (steps == 10) {
+    if (steps >= 12) {
         main();
         clearInterval(dot);//steps++;
     }
