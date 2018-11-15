@@ -5,7 +5,7 @@
     "link_type": "E_implies_E",
     "bibtex_ref": "luby1988construct",
     "page_number": "Section 5 / Page 380",
-    "long_description": "If pseudorandom functions exist, then pseudorandom permutations exist.  Starting with a PRF $G : \\{0,1\\}^n \\rightarrow \\{0,1\\}^{n}$.  We can construct a PRP $F : \\{0,1\\}^n \\cross {0,1\\}^s \\rightarrow \\{0,1\\}^{n}$.  Specifically, doing three rounds of a Feistel network (originally \cite{feistel1973cryptography}, explained more fully in \cite{schneier1996unbalanced}) with a PRF as the round function will yield a PRP.",
+    "long_description": "If pseudorandom functions exist, then pseudorandom permutations exist.  Starting with a PRF $G : \\{0,1\\}^n \\rightarrow \\{0,1\\}^{n}$.  We can construct a PRP $F : \\{0,1\\}^n \\cross {0,1\\}^s \\rightarrow \\{0,1\\}^{n}$.  Specifically, doing three rounds of a Feistel network (originally \\cite{feistel1973cryptography}, explained more fully in \\cite{schneier1996unbalanced}) with a PRF as the round function will yield a PRP.",
     "submitter": "wyatt-howe",
     "verifier": "sarahscheffler",
     "date_last_checked": "2018-11-03"
