@@ -1,0 +1,10 @@
+{
+    "uid": 810576015,
+    "display_name": "Strong PRP",
+    "full_name": "Strong Pseudorandom Permutation",
+    "bibtex_ref": "luby1988construct",
+    "page_number": "Section 4.4 / 379",
+    "long_description": "A PRP family $\\{F\\}_k$ is Strong if it meets all the requirements of a normal PRP, but the security property must also hold if the adversary is given an inversion oracle for $F^{-1}_k$.  (A normal PRP needs only maintain its security if the adversary has a forward oracle $F^k$.)",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-11-06"
+}
