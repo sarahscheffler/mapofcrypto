@@ -1,0 +1,11 @@
+{
+    "uid": 493562288,
+    "source_nodes": [810576015],
+    "dest_node": 5079247584,
+    "link_type": "E_implies_E",
+    "bibtex_ref": "luby1988construct",
+    "page_number": "Section 5",
+    "long_description": "If pseudorandom functions exist, then strong pseudorandom permutations exist.  Doing four rounds of a Feistel network (originally \cite{feistel1973cryptography}, explained more fully in \cite{schneier1996unbalanced}) with a PRF as the round function will yield a strong PRP.",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-11-06"
+}
