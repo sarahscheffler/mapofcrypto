@@ -1,0 +1,10 @@
+{
+    "uid": 5079247584,
+    "display_name": "PRP",
+    "full_name": "Pseudorandom Permutation",
+    "bibtex_ref": "luby1988construct",
+    "page_number": "Page 373 / Section 1.1",
+    "long_description": "$F$ is a permutation keyed by a key $k \\in \\{0,1\\}^s$, and maintains all of the properties of a pseudorandom function, except that $F$ is a bijection from $\\{0,1\\}^n$ to $\\{0,1\\}^n$, and is invertible in polynomial time given $k$.  Without $k$, $F$ is indistinguishable from a random permutation mapping $\\{0,1\\}^n \\rightarrow \\{0,1\\}^n$.",
+    "submitter": "wyatt-howe",
+    "date_last_checked": "2018-11-03"
+}

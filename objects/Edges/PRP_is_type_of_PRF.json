@@ -1,0 +1,11 @@
+{
+    "uid": 2964260547,
+    "source_nodes": [5079247584],
+    "dest_node": 3320321157,
+    "link_type": "is_type_of",
+    "bibtex_ref": "luby1988construct",
+    "page_number": "Page 379 / Section 4.3",
+    "long_description": "By definition",
+    "submitter": "sarahscheffler",
+    "date_last_checked": "2018-11-06"
+}
