@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
@@ -27,8 +26,8 @@ body {
 path.link {
   fill: none;
   stroke: #666;
-  stroke-width: 2.0px;
-  stroke-opacity: 0.6;
+  /* stroke-width: 2.0px; */
+  /* stroke-opacity: 0.6; */
 }
 
 circle {
@@ -43,7 +42,7 @@ text {
   font-family: 'SF Pro Display';
   font-style: normal;
   stroke: black;
-  stroke-width: 0.5px;
+  stroke-width: 0.75px;
 }
 
 .h {
@@ -61,6 +60,7 @@ text {
     font-style: normal;
     margin-top: 10px;
     margin-right: 15px;
+    margin-bottom: 0;
     color: black;
 }
 
@@ -170,6 +170,7 @@ fetch('https://api.github.com/repositories/133050934/contents/objects/Nodes', {m
                     target: nodesData[data["dest_node"]]["display_name"],
                     color: (Math.floor(Math.random() * Math.floor(7)))
                 });
+                info[nodesData[data["source_nodes"][0]]["display_name"]+nodesData[data["dest_node"]]["display_name"]] = data;
             });
         });
     });
@@ -228,7 +229,15 @@ function main() {
         .data(force.links())
       .enter().append("svg:path")
         .attr("class", "link")
+        .attr("stroke-width", "2.0px")
+        .attr("stroke-opacity", "0.6")
         .attr("marker-end", "url(#end)");
+    var pathcover = svg.append("svg:g").selectAll("path")
+        .data(force.links())
+      .enter().append("svg:path")
+        .attr("class", "link")
+        .attr("stroke-width", "12.0px")
+        .attr("stroke-opacity", "0.0")
 
     var node = svg.selectAll(".node")
         .data(force.nodes())
@@ -269,6 +278,13 @@ function main() {
         wikiOpen(_node.name);
     });
 
+    svg.selectAll("path").on("click", function(id) {
+        var _link = info[id["source"]["name"]+id["target"]["name"]];
+        console.log("Clicked " + id,_link);
+        console.log("Wiki open:", id["source"]["name"]+" --> "+id["target"]["name"]);
+        wikiOpen(_link, true, id);
+    });
+
     node.append("text")
         .attr("class", "text")
         .attr("x", 0)
@@ -292,6 +308,18 @@ function main() {
                 d.target.x + "," +
                 d.target.y;
         });
+        pathcover.attr("d", function(d) {
+            var dx = d.target.x - d.source.x,
+                dy = d.target.y - d.source.y,
+                dr = Math.sqrt(dx * dx + dy * dy);
+                dr*= 7;
+            return "M" +
+                d.source.x + "," +
+                d.source.y + "A" +
+                dr + "," + dr + " 0 0,1 " +
+                d.target.x + "," +
+                d.target.y;
+        });
 
         node
             .attr("transform", function(d) {
@@ -299,22 +327,46 @@ function main() {
     }
 }
 
-function wikiOpen(name) {
-    if (document.getElementById("name").innerHTML == "<h4>"+info[name]["full_name"]+"</h4>") { return; }
-    document.getElementById("name").innerHTML = "<h4>"+info[name]["full_name"]+"</h4>";
-    document.getElementById("content").innerHTML =
-        "<b>Reference ID</b>: &nbsp&nbsp&nbsp" + info[name]["bibtex_ref"] + "<br>" +
-        "<b>Page</b>: &nbsp&nbsp&nbsp" + info[name]["page_number"] + "<br>" +
-        "<b>Submitter</b>: &nbsp&nbsp&nbsp" + info[name]["submitter"] + "<br>" +
-        "<b>Date last checked</b>: &nbsp&nbsp&nbsp" + info[name]["date_last_checked"] + "<br>" +
-        "<br>" + info[name]["long_description"] + ""
-    ;
+function wikiOpen(name, link = false, id) {
+    if (!link) {
+        if (document.getElementById("name").innerHTML == "<h4>"+info[name]["full_name"]+"</h4>") { return; }
+        document.getElementById("name").innerHTML = "<h4>"+info[name]["full_name"]+"</h4>";
+        document.getElementById("content").innerHTML = "Error: description failed to load";
+        document.getElementById("content").innerHTML =
+            "<b>Reference ID</b>: &nbsp&nbsp&nbsp" + info[name]["bibtex_ref"] + "<br>" +
+            "<b>Page</b>: &nbsp&nbsp&nbsp" + info[name]["page_number"] + "<br>" +
+            "<b>Submitter</b>: &nbsp&nbsp&nbsp" + info[name]["submitter"] + "<br>" +
+            "<b>Date last checked</b>: &nbsp&nbsp&nbsp" + info[name]["date_last_checked"] + "<br>" +
+            "<br>" + info[name]["long_description"] + ""
+        ;
+    } else if (link) {
+        var link = name;
+        var title = "Link between "+info[id["source"]["name"]]["full_name"]+" and "+info[id["target"]["name"]]["full_name"];
+        if (link["link_type"]=="E_implies_E") {
+            title = "The existence of "+info[id["source"]["name"]]["full_name"]+" implies the existence of "+info[id["target"]["name"]]["full_name"];
+        }
+        if (link["link_type"]=="is_type_of") {
+            title = info[id["source"]["name"]]["full_name"]+" is a type of "+info[id["target"]["name"]]["full_name"];
+        }
+        if (document.getElementById("name").innerHTML == "<h4>"+title+"</h4>") { return; }
+        document.getElementById("name").innerHTML = "<h4>"+title+"</h4>";
+        document.getElementById("content").innerHTML = "Error: description failed to load";
+        document.getElementById("content").innerHTML =
+            "<b>Classification</b>: &nbsp&nbsp&nbsp" + link["link_type"] + "<br>" +
+            "<b>Reference ID</b>: &nbsp&nbsp&nbsp" + link["bibtex_ref"] + "<br>" +
+            "<b>Page</b>: &nbsp&nbsp&nbsp" + link["page_number"] + "<br>" +
+            "<b>Submitter</b>: &nbsp&nbsp&nbsp" + link["submitter"] + "<br>" +
+            "<b>Verifier</b>: &nbsp&nbsp&nbsp" + link["verifier"] + "<br>" +
+            "<b>Date last checked</b>: &nbsp&nbsp&nbsp" + link["date_last_checked"] + "<br>" +
+            "<br>" + link["long_description"] + ""
+        ;
+    }
 
     renderMathInElement(document.getElementById("content"), {delimiters: [{left: "$", right: "$", display: false}]});
 }
 
 var dot = window.setInterval( function() {
-    if (steps >= 10) {
+    if (steps >= 12) {
         main();
         clearInterval(dot);//steps++;
     }
