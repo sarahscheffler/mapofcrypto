@@ -85,6 +85,7 @@ text {
 
 h4 {
     font-family: sans-serif;
+    margin-bottom: 0;
 }
 
 #side {
@@ -95,19 +96,26 @@ h4 {
 .katex {
     font-size: 1em !important;
 }
+
+.hide { display: none; }
+.show { display: block; }
 </style>
 </head>
 
 <body>
 <div>
     <div style="width: 100%; height: 100%">
-        <div style="float: left; width: 29%; display: inline-block; height: 100%; min-height: 2000px;" id="side">
+        <div style="float: left; width: 34%; display: inline-block; height: 100%; min-height: 2000px;" id="side">
             <h2 style="text-align: center; margin-bottom: 5px;" class="h">Map of Crypto</h2>
             <h3 style="text-align: center; margin-top: 5px;" class="h">Wiki Reference</h3>
             <p style="text-align: center; padding-left: 10px; padding-right: 10px;" id="name"><p>
-            <p style="padding: 10px;"><span id="content"><p>
+            <div style="margin-left: 10px; margin-right: 10px; margin-top: 0; margin-bottom: 0; border-top: 0.5px dashed;" id="bar" class="hide"></div>
+            <div style="width: 100%; height: 75vh; overflow-y: scroll;" id="scroll">
+                <p style="padding-left: 10px; padding-right: 10px;"><span id="content"></span><p>
+                <p style="padding-left: 10px; padding-right: 10px; word-break: break-word; font-color: black;"><span id="citation"></span><p>
+            </div>
         </div>
-        <div style="float:right; width: 70%; height: 100%;">
+        <div style="float:right; width: 65%; height: 100%;">
             <p class="about"><a href="https://mapofcrypto.io/">About</a>&nbsp; &nbsp;<a href="https://github.com/sarahscheffler/mapofcrypto">Github</a></p>
             <div id="loading" style="text-align: center; margin-top: 200px; width: 95%;"><p style="text-align: left; margin-left: 45%;">Loading map<span id="dots"></span></p></div>
             <svg width="100%" height="500px"></svg>
@@ -115,6 +123,50 @@ h4 {
     </div>
 </div>
 <script>
+function parseBibTexLine (text) {
+    var m = text.match(/^\s*(\S+)\s*=\s*/);
+    if (!m) {
+        console.log('line: "' + text + '"');
+        throw new Error('Unrecogonised line format');
+    }
+    var name = m[1];
+    var search = text.slice(m[0].length);
+    var re = /[\n\r,{}]/g;
+    var braceCount = 0;
+    var length = m[0].length;
+    do {
+        m = re.exec(search);
+        if (m[0] === '{') {
+            braceCount++;
+        } else if (m[0] === '}') {
+            if (braceCount ===  0) {
+                throw new Error('Unexpected closing brace: "}"');
+            }
+            braceCount--;
+        }
+    } while (braceCount > 0);
+    return {
+        field:name,
+        value: search.slice(0, re.lastIndex),
+        length:length + re.lastIndex + m[0].length
+    };
+}
+
+function parseBibTex (text) {
+    var m = text.match(/^\s*@([^{]+){([^,\n]+)[,\n]/);
+    var result = {
+        typeName: m[1].trim(),
+        citationKey: m[2].trim()
+    }
+    text = text.slice(m[0].length).trim();
+    while (text[0] !== '}') {
+        var pair = parseBibTexLine(text);
+        result[pair.field] = pair.value;
+        text = text.slice(pair.length).trim();
+    }
+    return result;
+}
+
 function darken(color, p) {
     p*=-1;var f=parseInt(color.slice(1),16),t=p<0?0:255,p=p<0?p*-1:p,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
@@ -133,6 +185,7 @@ var links = [];
 var primitives = [];
 var info = [];
 var steps = 0;
+var bib = [];
 fetch('https://api.github.com/repositories/133050934/contents/objects/Nodes', {method:'GET',
         headers: headers,
        }
@@ -325,19 +378,39 @@ function main() {
             .attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ")"; });
     }
+
+    fetch('https://raw.githubusercontent.com/sarahscheffler/mapofcrypto/master/objects/Citations/Citations.bib')
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(citations) {
+            var bibtext = citations;
+
+            var array = bibtext.split("\n\n");
+            for (var key in array) {
+                bib[/{(.*),/.exec(array[key])[1]] = array[key];
+                // console.log(array[key]);
+            }
+        });
 }
 
+document.getElementById('scroll').onscroll = function(){
+    document.getElementById('bar').setAttribute('class', 'show');
+};
+
 function wikiOpen(name, link = false, id) {
+    document.getElementById('bar').setAttribute('class', 'hide');
     if (!link) {
-        if (document.getElementById("name").innerHTML == "<h4>"+info[name]["full_name"]+"</h4>") { return; }
-        document.getElementById("name").innerHTML = "<h4>"+info[name]["full_name"]+"</h4>";
+        var link = info[name];
+        if (document.getElementById("name").innerHTML == "<h4>"+link["full_name"]+"</h4>") { return; }
+        document.getElementById("name").innerHTML = "<h4>"+link["full_name"]+"</h4>";
         document.getElementById("content").innerHTML = "Error: description failed to load";
         document.getElementById("content").innerHTML =
-            "<b>Reference ID</b>: &nbsp&nbsp&nbsp" + info[name]["bibtex_ref"] + "<br>" +
-            "<b>Page</b>: &nbsp&nbsp&nbsp" + info[name]["page_number"] + "<br>" +
-            "<b>Submitter</b>: &nbsp&nbsp&nbsp" + info[name]["submitter"] + "<br>" +
-            "<b>Date last checked</b>: &nbsp&nbsp&nbsp" + info[name]["date_last_checked"] + "<br>" +
-            "<br>" + info[name]["long_description"] + ""
+            "<b>Reference ID</b>: &nbsp&nbsp&nbsp" + link["bibtex_ref"] + "<br>" +
+            "<b>Page</b>: &nbsp&nbsp&nbsp" + link["page_number"] + "<br>" +
+            "<b>Submitter</b>: &nbsp&nbsp&nbsp" + link["submitter"] + "<br>" +
+            "<b>Date last checked</b>: &nbsp&nbsp&nbsp" + link["date_last_checked"] + "<br>" +
+            "<br>" + link["long_description"] + ""
         ;
     } else if (link) {
         var link = name;
@@ -361,6 +434,20 @@ function wikiOpen(name, link = false, id) {
             "<br>" + link["long_description"] + ""
         ;
     }
+
+    var bibtex = parseBibTex(bib[link["bibtex_ref"]]);
+    var citation = "";
+    for (var key in bibtex) {
+        var value = /{(.*?)}/.exec(bibtex[key]);
+        if (key == "howpublished") {
+            var url = value[1];
+            citation += "<b>Paper</b>:&nbsp&nbsp<a href='" + url + "'>" + url + "</a><br>";
+        } else if (value !== null) {
+            citation += "<b>" + key.charAt(0).toUpperCase() + key.slice(1) + "</b>:&nbsp&nbsp" + value[1] + "<br>";
+        }
+    }
+
+    document.getElementById("citation").innerHTML = citation;
 
     renderMathInElement(document.getElementById("content"), {delimiters: [{left: "$", right: "$", display: false}]});
 }
