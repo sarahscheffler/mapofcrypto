@@ -1,7 +1,7 @@
 {
     "uid": 493562288,
-    "source_nodes": [810576015],
-    "dest_node": 5079247584,
+    "source_nodes": [3320321157],
+    "dest_node": 810576015,
     "link_type": "E_implies_E",
     "bibtex_ref": "luby1988construct",
     "page_number": "Section 5",
