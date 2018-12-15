@@ -3,9 +3,10 @@
 <meta charset="utf-8">
 <title>Map of Crypto</title>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/ef59e62c/src/bibtex_js.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="font.css" rel="stylesheet">
 <style>
 html {
@@ -93,6 +94,10 @@ h4 {
     background-color: rgba(250, 250, 250, 1.0);
 }
 
+.citation {
+    font-family: "Times New Roman", Times, serif;
+}
+
 .katex {
     font-size: 1em !important;
 }
@@ -108,11 +113,17 @@ h4 {
         <div style="float: left; width: 34%; display: inline-block; height: 100%; min-height: 2000px;" id="side">
             <h2 style="text-align: center; margin-bottom: 5px;" class="h">Map of Crypto</h2>
             <h3 style="text-align: center; margin-top: 5px;" class="h">Wiki Reference</h3>
+            <bibtex src="https://raw.githubusercontent.com/sarahscheffler/mapofcrypto/master/objects/Citations/Citations.bib"></bibtex>
+            <input type="hidden" class="bibtex_search" id="searchbar" value="null_paper_input">
             <p style="text-align: center; padding-left: 10px; padding-right: 10px;" id="name"><p>
             <div style="margin-left: 10px; margin-right: 10px; margin-top: 0; margin-bottom: 0; border-top: 0.5px dashed;" id="bar" class="hide"></div>
             <div style="width: 100%; height: 75vh; overflow-y: scroll;" id="scroll">
                 <p style="padding-left: 10px; padding-right: 10px;"><span id="content"></span><p>
-                <p style="padding-left: 10px; padding-right: 10px; word-break: break-word; font-color: black;"><span id="citation"></span><p>
+                <p style="padding-left: 10px; padding-right: 10px; word-break: break-word; font-color: black;">
+                    <span id="citation">
+                        <div id="bibtex_display" style="padding-left: 10px; padding-right: 10px;"></div>
+                    </span>
+                <p>
             </div>
         </div>
         <div style="float:right; width: 65%; height: 100%;">
@@ -472,10 +483,12 @@ function wikiOpen(name, link = false, id) {
         if (key == "howpublished") {
             var url = value[1];
             citation += "<b>Paper</b>:&nbsp&nbsp<a href='" + url + "'>" + url + "</a><br>";
-        } else if (value !== null) {
-            citation += "<b>" + key.charAt(0).toUpperCase() + key.slice(1) + "</b>:&nbsp&nbsp" + value[1] + "<br>";
         }
     }
+
+    var searchbar = document.getElementById("searchbar");
+    searchbar.value = /{(.*?)}/.exec(bibtex["title"])[1];//link["bibtex_ref"];
+    searchbar.dispatchEvent(new Event('change'));
 
     document.getElementById("citation").innerHTML = citation;
 
